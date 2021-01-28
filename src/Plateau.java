@@ -31,7 +31,7 @@ public class Plateau {
      * @param jeton jeton d'un joueur
      * @param col colonne où insérer le jeton
      */
-    public boolean play(char jeton, int col) {
+    public boolean insereJeton(char jeton, int col) {
         if(plateau[col][0] != ' ') {
             // la colonne demandée est déjà pleine
             return false;
