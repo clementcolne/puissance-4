@@ -64,15 +64,19 @@ public class Game {
                     // diagonales
                     k = 0;
                     l = 0;
-                    while(k < plateau.getColonnes() && l < plateau.getLignes() && i + k < plateau.getColonnes() && j + l < plateau.getLignes() && plateau.getCase(i+k, j+l) == plateau.getCase(i, j))
+                    while(k < plateau.getColonnes() && l < plateau.getLignes() && i + k < plateau.getColonnes() && j + l < plateau.getLignes() && plateau.getCase(i+k, j+l) == plateau.getCase(i, j)) {
                         k++;
+                        l++;
+                    }
                     if(k == 4)
                         return plateau.getCase(i, j) == 'O'? FinDePartie.ORDI_GAGNE : FinDePartie.HUMAIN_GAGNE;
 
                     k = 0;
                     l = 0;
-                    while(k < plateau.getColonnes() && l < plateau.getLignes() && i + k < plateau.getColonnes() && j - l >= 0 && plateau.getCase(i+k, j-l) == plateau.getCase(i, j))
+                    while(k < plateau.getColonnes() && l < plateau.getLignes() && i + k < plateau.getColonnes() && j - l >= 0 && plateau.getCase(i+k, j-l) == plateau.getCase(i, j)) {
                         k++;
+                        l++;
+                    }
                     if(k == 4)
                         return plateau.getCase(i, j) == 'O'? FinDePartie.ORDI_GAGNE : FinDePartie.HUMAIN_GAGNE;
                 }
@@ -84,5 +88,33 @@ public class Game {
             return FinDePartie.MATCHNUL;
 
         return FinDePartie.NON;
+    }
+
+    public void play() {
+        FinDePartie finDePartie = FinDePartie.NON;
+        while (finDePartie == FinDePartie.NON){
+            boolean coupValide = false;
+            if (isTourJoueur()) {
+                while (!coupValide){
+                    coupValide = plateau.insereJeton('X', jouerCoup());
+                }
+            }else{
+                while (!coupValide){
+                    //coupValide = p.insereJeton('O', game.jouerCoupIA());
+                    coupValide = plateau.insereJeton('O', jouerCoup());
+                }
+            }
+            finDePartie = estVictoire();
+            plateau.display();
+            changeTourJoueur();
+        }
+
+        if (finDePartie == FinDePartie.HUMAIN_GAGNE){
+            System.out.println("PUISSANCE 4 ! L'humain a gagné !");
+        }else if (finDePartie == FinDePartie.ORDI_GAGNE){
+            System.out.println("PUISSANCE 4 ! L'ordi a gagné !");
+        }else{
+            System.out.println("Match nul !");
+        }
     }
 }
