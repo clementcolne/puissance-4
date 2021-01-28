@@ -31,11 +31,7 @@ public class Main {
                 }
             }
             p.display();
-            /*if(game.estVictoire()) {
-                finDePartie = FinDePartie.HUMAIN_GAGNE;
-            }else{
-                finDePartie = FinDePartie.ORDI_GAGNE;
-            }*/
+            finDePartie = game.estVictoire();
             game.changeTourJoueur();
         }
         if (finDePartie == FinDePartie.HUMAIN_GAGNE){
@@ -45,16 +41,6 @@ public class Main {
         }else{
             System.out.println("Match nul !");
         }
-
-        /*p.display();
-        System.out.println(p.play('X', 0));
-        p.display();
-        System.out.println(p.play('X', 0));
-        p.display();
-        System.out.println(p.play('X', 0));
-        p.display();
-        System.out.println(p.play('X', 0));
-        p.display();*/
     }
 
 }

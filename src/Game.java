@@ -40,35 +40,49 @@ public class Game {
      * Vérifie si il y a une suite de 4 jeton de même couleur dans le plateau
      * @return vrai si il existe une suite de 4 jetons dans le plateau, faux sinon
      */
-    public boolean estVictoire() {
-        boolean is4jetons;
-        char firstJeton;
-        // on regarde si il existe une suite de 4 même jetons en colonne
-        for(int i = 0 ; i < plateau.getColonnes() ; i++) {
-            for(int j = plateau.getLignes() - 1 ; j > 3 ; j--) {
-                // on initialise le premier jeton de la suite
-                firstJeton = plateau.getCase(i, j);
-                // variable qui permet d'identifier si il y a 4 jetons d'affilée de même couleur ou non
-                is4jetons = true;
-                // pour chaque colonne, on regarde les 3 premières lignes
-                // on vérifie pour chacune de ces 3 premières lignes si il existe une suite de 4 jetons de même couleur
-                for(int k = j ; k >= j - 3 ; k--) {
-                    if(plateau.getCase(i, k) == ' ') {
-                        // il y a une case vide, alors il ne peut pas y avoir 4 jetons de même couleur consécutifs
-                        is4jetons = false;
-                    }
-                    if(firstJeton != plateau.getCase(i, k)) {
-                        // il n'y a pas 4 jetons de même couleur dans la suite, ou il y a une case vide on s'arrête
-                        is4jetons = false;
-                    }
-                }
-                if(is4jetons) {
-                    // si cette condition est vérifiée, alors il existe une suite de 4 jetons, puissance 4 !!
-                    return true;
+    public FinDePartie estVictoire() {
+        int i, j, k, l, n = 0;
+        for(i = 0 ; i < plateau.getColonnes() ; i++) {
+            for(j = 0 ; j < plateau.getLignes() ; j++) {
+                if (plateau.getCase(i, j) != ' ') {
+                    n++;	// nb coups joués
+
+                    // lignes
+                    k = 0;
+                    while(k < plateau.getColonnes() && i + k < plateau.getColonnes() && plateau.getCase(i+k, j) == plateau.getCase(i, j))
+                        k++;
+                    if(k == 4)
+                        return plateau.getCase(i, j) == 'O'? FinDePartie.ORDI_GAGNE : FinDePartie.HUMAIN_GAGNE;
+
+                    // colonnes
+                    k = 0;
+                    while(k < plateau.getLignes() && j + k < plateau.getLignes() && plateau.getCase(i, j+k) == plateau.getCase(i, j))
+                        k++;
+                    if(k == 4)
+                        return plateau.getCase(i, j) == 'O'? FinDePartie.ORDI_GAGNE : FinDePartie.HUMAIN_GAGNE;
+
+                    // diagonales
+                    k = 0;
+                    l = 0;
+                    while(k < plateau.getColonnes() && l < plateau.getLignes() && i + k < plateau.getColonnes() && j + l < plateau.getLignes() && plateau.getCase(i+k, j+l) == plateau.getCase(i, j))
+                        k++;
+                    if(k == 4)
+                        return plateau.getCase(i, j) == 'O'? FinDePartie.ORDI_GAGNE : FinDePartie.HUMAIN_GAGNE;
+
+                    k = 0;
+                    l = 0;
+                    while(k < plateau.getColonnes() && l < plateau.getLignes() && i + k < plateau.getColonnes() && j - l >= 0 && plateau.getCase(i+k, j-l) == plateau.getCase(i, j))
+                        k++;
+                    if(k == 4)
+                        return plateau.getCase(i, j) == 'O'? FinDePartie.ORDI_GAGNE : FinDePartie.HUMAIN_GAGNE;
                 }
             }
         }
 
-        return false;
+        // et sinon tester le match nul
+        if (n == plateau.getColonnes()* plateau.getLignes())
+            return FinDePartie.MATCHNUL;
+
+        return FinDePartie.NON;
     }
 }
