@@ -3,13 +3,37 @@ import java.util.Scanner;
 public class Game {
 
     private Plateau plateau;
+    private final InputJoueur inputJoueur;
+    private boolean tourJoueur;
 
-    public Game(Plateau p) {
+    public Game(Plateau p, InputJoueur inputJoueur, int joueur){
+        this.inputJoueur = inputJoueur;
         plateau = p;
+        if (joueur == 0){
+            tourJoueur = true;
+        }else{
+            tourJoueur = false;
+        }
     }
 
-    public int autreJoueur(int joueur){
-        return 1 - joueur;
+    public void changeTourJoueur(){
+        tourJoueur = !tourJoueur;
+    }
+
+    public InputJoueur getInputJoueur() {
+        return inputJoueur;
+    }
+
+    public int jouerCoup() {
+        return inputJoueur.demanderCoup();
+    }
+
+    public boolean isTourJoueur() {
+        return tourJoueur;
+    }
+
+    public int jouerCoupIA() {
+        return inputJoueur.IA();
     }
 
     /**
