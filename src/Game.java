@@ -49,14 +49,14 @@ public class Game {
 
                     // lignes
                     k = 0;
-                    while(k < plateau.getColonnes() && i + k < plateau.getColonnes() && plateau.getCase(i+k, j) == plateau.getCase(i, j))
+                    while(k < 4 && i + k < plateau.getColonnes() && plateau.getCase(i+k, j) == plateau.getCase(i, j))
                         k++;
                     if(k == 4)
                         return plateau.getCase(i, j) == 'O'? FinDePartie.ORDI_GAGNE : FinDePartie.HUMAIN_GAGNE;
 
                     // colonnes
                     k = 0;
-                    while(k < plateau.getLignes() && j + k < plateau.getLignes() && plateau.getCase(i, j+k) == plateau.getCase(i, j))
+                    while(k < 4 && j + k < plateau.getLignes() && plateau.getCase(i, j+k) == plateau.getCase(i, j))
                         k++;
                     if(k == 4)
                         return plateau.getCase(i, j) == 'O'? FinDePartie.ORDI_GAGNE : FinDePartie.HUMAIN_GAGNE;
@@ -64,7 +64,7 @@ public class Game {
                     // diagonales
                     k = 0;
                     l = 0;
-                    while(k < plateau.getColonnes() && l < plateau.getLignes() && i + k < plateau.getColonnes() && j + l < plateau.getLignes() && plateau.getCase(i+k, j+l) == plateau.getCase(i, j)) {
+                    while(k < 4 && l < plateau.getLignes() && i + k < plateau.getColonnes() && j + l < plateau.getLignes() && plateau.getCase(i+k, j+l) == plateau.getCase(i, j)) {
                         k++;
                         l++;
                     }
@@ -73,7 +73,7 @@ public class Game {
 
                     k = 0;
                     l = 0;
-                    while(k < plateau.getColonnes() && l < plateau.getLignes() && i + k < plateau.getColonnes() && j - l >= 0 && plateau.getCase(i+k, j-l) == plateau.getCase(i, j)) {
+                    while(k < 4 && l < plateau.getLignes() && i + k < plateau.getColonnes() && j - l >= 0 && plateau.getCase(i+k, j-l) == plateau.getCase(i, j)) {
                         k++;
                         l++;
                     }
