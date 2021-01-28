@@ -52,6 +52,24 @@ public class Plateau {
     }
 
     /**
+     * Retourne la case demandée
+     * @param col colonne de la case
+     * @param lig ligne de la case
+     * @return la case demandée
+     */
+    public char getCase(int col, int lig) {
+        return plateau[col][lig];
+    }
+
+    public int getColonnes() {
+        return colonnes;
+    }
+
+    public int getLignes() {
+        return lignes;
+    }
+
+    /**
      * Affiche le plateau de jeu
      */
     public void display() {

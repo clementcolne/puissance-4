@@ -6,25 +6,18 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        //Scanner scanner = new Scanner(System.in);
-        //int joueur = scanner.nextInt();
         Plateau p = new Plateau();
-        Game game = new Game();
+        Game game = new Game(p);
         InputJoueur inputJoueur = new InputJoueur(game);
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0 ; i < 150 ; i++) {
             System.out.println(p.insereJeton('X', inputJoueur.demanderCoup()));
             p.display();
+            if(game.estVictoire()) {
+                System.out.println("PUISSANCE 4");
+                System.exit(1);
+            }
         }
-        /*p.display();
-        System.out.println(p.play('X', 0));
-        p.display();
-        System.out.println(p.play('X', 0));
-        p.display();
-        System.out.println(p.play('X', 0));
-        p.display();
-        System.out.println(p.play('X', 0));
-        p.display();*/
     }
 
 }
