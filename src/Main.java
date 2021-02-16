@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        FinDePartie finDePartie = FinDePartie.NON;
         System.out.println("Qui commence (0 : humain, 1 : ordinateur) ?");
         Scanner scanner = new Scanner(System.in);
         int joueur = scanner.nextInt();

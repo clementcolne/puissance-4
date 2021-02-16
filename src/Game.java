@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Game {
 
     private Plateau plateau;
@@ -100,8 +98,7 @@ public class Game {
                 }
             }else{
                 while (!coupValide){
-                    //coupValide = p.insereJeton('O', game.jouerCoupIA());
-                    coupValide = plateau.insereJeton('O', jouerCoup());
+                    coupValide = plateau.insereJeton('O', jouerCoupIA());
                 }
             }
             finDePartie = estVictoire();
