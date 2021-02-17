@@ -15,6 +15,24 @@ public class Plateau {
         init();
     }
 
+    public Plateau(Plateau p) {
+        plateau = p.getPlateau();
+    }
+
+    /**
+     * Retourne une copie du tableau 2 dimensions plateau
+     * @return une copie du tableau 2 dimensions plateau
+     */
+    public char[][] getPlateau() {
+        char[][] res = new char[colonnes][lignes];
+        for(int i = 0 ; i < colonnes ; i++) {
+            for(int j = 0 ; j < lignes ; j++) {
+                res[i][j] = plateau[i][j];
+            }
+        }
+        return res;
+    }
+
     /**
      * Initialise le plateau de jeu
      */
@@ -43,8 +61,13 @@ public class Plateau {
      * @param col colonne où insérer le jeton
      */
     public boolean insereJeton(char jeton, int col) {
+        if(col < 0) {
+            return false;
+        }
         if(plateau[col][0] != ' ') {
             // la colonne demandée est déjà pleine
+            System.out.println("Colonne " + col + " déjà pleine");
+            System.out.println("------------------------------");
             return false;
         }
 
@@ -59,6 +82,8 @@ public class Plateau {
         }
         // on insère le jeton
         plateau[col][lig] = jeton;
+        System.out.println("Colonne " + col + " pas déjà pleine, insertion à la ligne " + lig);
+        System.out.println("------------------------------");
         return true;
     }
 

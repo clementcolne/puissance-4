@@ -2,6 +2,9 @@ package algorithme;
 
 import puissance4.Plateau;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Clément Colné
  */
@@ -30,13 +33,17 @@ public class Etat {
         return p;
     }
 
-    public int[] getCoupsPossibles() {
-        int[] res = new int[7];
+    public void jouerCoup(char c, int coup) {
+        Plateau pCopie = new Plateau(p);
+        pCopie.insereJeton(c, coup);
+    }
+
+    public List<Integer> getCoupsPossibles() {
+        List<Integer> res = new ArrayList<>();
         for(int i = 0 ; i < 7 ; i++) {
-            if(p.isFullCol(i)) {
-                res[i] = -1;
-            }else{
-                res[i] = i;
+            if(!p.isFullCol(i)) {
+                System.out.println(i);
+                res.add(i);
             }
         }
         return res;
