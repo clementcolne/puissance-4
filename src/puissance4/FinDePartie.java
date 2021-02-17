@@ -1,3 +1,5 @@
+package puissance4;
+
 public enum FinDePartie {
     
     NON,

@@ -1,8 +1,15 @@
+package puissance4;
+
+import algorithme.Etat;
+import algorithme.IA;
+import algorithme.Noeud;
+
 public class Game {
 
     private Plateau plateau;
     private final InputJoueur inputJoueur;
     private boolean tourJoueur;
+    private IA ia;
 
     public Game(Plateau p, InputJoueur inputJoueur, int joueur){
         this.inputJoueur = inputJoueur;
@@ -12,6 +19,7 @@ public class Game {
         }else{
             tourJoueur = false;
         }
+        this.ia = new IA();
     }
 
     public void changeTourJoueur(){
@@ -97,9 +105,10 @@ public class Game {
                     coupValide = plateau.insereJeton('X', jouerCoup());
                 }
             }else{
-                while (!coupValide){
-                    coupValide = plateau.insereJeton('O', jouerCoupIA());
-                }
+                Etat e = new Etat(plateau);
+                e.setJoueur(tourJoueur);
+                ia.jouerMCTS(e);
+
             }
             finDePartie = estVictoire();
             plateau.display();

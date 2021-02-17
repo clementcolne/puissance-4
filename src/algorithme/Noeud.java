@@ -16,11 +16,36 @@ public class Noeud {
     private double nbSimulations = 0.;
     private int valeurTotale = 0;
     private final double c = Math.sqrt(2);
-    private final int signe;
+    private int signe;
+    private Etat etat;
+    private int coup;
+    private boolean joueur;
 
-    public Noeud(Noeud noeudParent, int signe) {
+    public Noeud(Noeud noeudParent, int coup) {
+        if(noeudParent != null && coup != -1) {
+            etat = new Etat(noeudParent.getEtat());
+
+            jouerCoup( noeud->etat, coup );
+
+            this.coup = coup;
+            joueur = !noeudParent.joueur;
+        }
+
+
         this.noeudParent = noeudParent;
+        this.e = e;
         lesFils = new ArrayList<>();
+    }
+
+    public void setEtat(Etat etat) {
+        this.etat = etat;
+    }
+
+    public Etat getEtat() {
+        return etat;
+    }
+
+    public void setSigne(int signe) {
         this.signe = signe;
     }
 
@@ -49,11 +74,6 @@ public class Noeud {
     }
 
     public double valeurTotale() {
-        int valeur = 0;
-        for(Noeud fils : lesFils) {
-            valeur += fils.valeurTotale();
-        }
-        valeurTotale += valeur;
         return valeurTotale;
     }
 
@@ -62,7 +82,7 @@ public class Noeud {
     }
 
     public double computeBValeur() {
-        return noeudParent.getSigne() * valeurTotale() + c * Math.sqrt(Math.log(noeudParent.getNbSimulations())/nbSimulations);
+        return noeudParent.getSigne() * (valeurTotale()/nbSimulations) + c * Math.sqrt(Math.log(noeudParent.getNbSimulations())/nbSimulations);
     }
 
     public double rollout() {

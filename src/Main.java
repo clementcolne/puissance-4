@@ -1,3 +1,7 @@
+import puissance4.Game;
+import puissance4.InputJoueur;
+import puissance4.Plateau;
+
 import java.util.Scanner;
 
 /**

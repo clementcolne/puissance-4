@@ -1,3 +1,5 @@
+package puissance4;
+
 /**
  * @author Clément Colné
  */
@@ -24,6 +26,15 @@ public class Plateau {
                 plateau[i][j] = ' ';
             }
         }
+    }
+
+    /**
+     * Retourne vrai si la colonne col est pleine
+     * @param col colonne
+     * @return vrai si la colonne col est pleine
+     */
+    public boolean isFullCol(int col) {
+        return plateau[col][0] != ' ';
     }
 
     /**
