@@ -13,7 +13,8 @@ public class Noeud {
     private Noeud noeudParent = null;
     private List<Noeud> lesFils;
     private double mu;
-    private double nbSimulations = 0.;
+    private double nbSimulations;
+    private int nbVictoires;
     private int valeurTotale = 0;
     private final double c = Math.sqrt(2);
     private int signe;
@@ -25,16 +26,17 @@ public class Noeud {
         if(noeudParent != null && coup != -1) {
             etat = new Etat(noeudParent.getEtat());
 
-            jouerCoup( noeud->etat, coup );
+            //jouerCoup(etat, coup);
 
             this.coup = coup;
             joueur = !noeudParent.joueur;
         }
-
-
         this.noeudParent = noeudParent;
-        this.e = e;
         lesFils = new ArrayList<>();
+
+        // POUR MCTS:
+        nbVictoires = 0;
+        nbSimulations = 0;
     }
 
     public void setEtat(Etat etat) {

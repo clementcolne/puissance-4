@@ -22,18 +22,19 @@ public class IA {
         coups = e.getCoupsPossibles();
         int k = 0;
         Noeud enfant;
-        while (coups[k] != -1) {
+        while (k < coups.length && coups[k] != -1) {
             courant.ajouterFils(new Noeud(courant, coups[k]));
             k++;
         }
         meilleurCoup = coups[0]; // TODO : a modifier
+        jouerCoup(meilleurCoup, e);
 
     }
 
     public boolean jouerCoup(int coup, Etat e) {
         Plateau p = e.getP();
 
-        boolean insered = p.insereJeton('X', coup);
+        boolean insered = p.insereJeton('O', coup);
         if(!insered) {
             return false;
         }
