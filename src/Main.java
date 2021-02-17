@@ -21,7 +21,7 @@ public class Main {
         Plateau p = new Plateau();
         InputJoueur inputJoueur = new InputJoueur();
         Game game = new Game(p, inputJoueur, joueur);
-        game.play();
+        game.pla?y();
     }
 
 }
