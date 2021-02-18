@@ -33,19 +33,23 @@ public class Etat {
         return p;
     }
 
-    public void jouerCoup(char c, int coup) {
+    public Plateau jouerCoup(char c, int coup) {
         Plateau pCopie = new Plateau(p);
         pCopie.insereJeton(c, coup);
+        return pCopie;
     }
 
     public List<Integer> getCoupsPossibles() {
         List<Integer> res = new ArrayList<>();
         for(int i = 0 ; i < 7 ; i++) {
             if(!p.isFullCol(i)) {
-                System.out.println(i);
                 res.add(i);
             }
         }
         return res;
+    }
+
+    public void setP(Plateau p) {
+        this.p = p;
     }
 }

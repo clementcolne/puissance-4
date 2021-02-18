@@ -31,7 +31,9 @@ public class IA {
         long fin;
         int meilleurCoup;
         long debut = System.currentTimeMillis();
+        //TODO : le noeud racine ne possède pas de fils, et on ne lui en donne jamais. Donc la ligne 61 nous renvoie un null
         do {
+            System.out.println(courant.getNbFils());
             // algorithme MCTS
             if(courant.getNbFils() == 0) {
                 // le noeud est une feuille
@@ -60,6 +62,7 @@ public class IA {
             meilleurCoup = coups.get(courant.getIndexFils(filsPref));
             fin = System.currentTimeMillis();
             iter++;
+            System.exit(1);
         }while((fin - debut) < 3000);
         jouerCoup(meilleurCoup, e);
     }
@@ -71,20 +74,28 @@ public class IA {
         int coup = rand.nextInt(nbPossibilites.size());
         char c = courant.getJoueur() ? 'X' : '0';
         p.insereJeton(c, coup);
-        p.display();
+        //p.display();
         Noeud tmp = new Noeud(courant, coup);
         nbPossibilites = tmp.getEtat().getCoupsPossibles();
+        int i = 0;
         while(nbPossibilites.size() > 0) {
-            System.out.println(nbPossibilites);
-            coup = rand.nextInt(nbPossibilites.size());
+            i++;
+            courant = tmp;
+            //System.out.println(nbPossibilites);
+            coup = nbPossibilites.get(rand.nextInt(nbPossibilites.size()));
             c = courant.getJoueur() ? 'X' : '0';
             p.insereJeton(c, coup);
             tmp = new Noeud(tmp, coup);
             nbPossibilites = tmp.getEtat().getCoupsPossibles();
-            p.display();
-            System.exit(1);
+            //p.display();
+            if (game.estVictoire(p) == FinDePartie.ORDI_GAGNE){
+                return 1;
+            }
+            if (game.estVictoire(p) == FinDePartie.HUMAIN_GAGNE || game.estVictoire(p) == FinDePartie.MATCHNUL){
+                return 0;
+            }
         }
-        return game.estVictoire() == FinDePartie.ORDI_GAGNE ? 1 : 0;
+        return game.estVictoire(p) == FinDePartie.ORDI_GAGNE ? 1 : 0;
     }
 
     public boolean jouerCoup(int coup, Etat e) {

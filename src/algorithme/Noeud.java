@@ -25,7 +25,7 @@ public class Noeud {
         if(noeudParent != null && coup != -1) {
             etat = new Etat(noeudParent.getEtat());
 
-            etat.jouerCoup('0', coup);
+            etat.setP(etat.jouerCoup('0', coup));
 
             this.coup = coup;
             joueur = !noeudParent.joueur;

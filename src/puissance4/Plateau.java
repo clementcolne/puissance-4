@@ -66,10 +66,14 @@ public class Plateau {
         }
         if(plateau[col][0] != ' ') {
             // la colonne demandée est déjà pleine
-            System.out.println("Colonne " + col + " déjà pleine");
-            System.out.println("------------------------------");
+            /*System.out.println("Colonne " + col + " demandé par le jeton " + jeton + " est déjà pleine");
+            System.out.println("------------------------------");*/
             return false;
         }
+
+        /*if (col > colonnes-1){
+            return false;
+        }*/
 
         // lig = la ligne où on va insérer le jeton, au premier coup, tout en bas
         int lig = lignes - 1;
@@ -82,8 +86,8 @@ public class Plateau {
         }
         // on insère le jeton
         plateau[col][lig] = jeton;
-        System.out.println("Colonne " + col + " pas déjà pleine, insertion à la ligne " + lig);
-        System.out.println("------------------------------");
+        /*System.out.println("Colonne " + col + " demandé par le jeton " + jeton + " est pas déjà pleine, insertion à la ligne " + lig);
+        System.out.println("------------------------------");*/
         return true;
     }
 
@@ -121,6 +125,7 @@ public class Plateau {
             }
             System.out.println("\n----------------------------");
         }
+        System.out.println("\n");
     }
 
 }
