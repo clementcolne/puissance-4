@@ -15,7 +15,7 @@ import java.util.Random;
 public class IA {
 
     private Noeud courant;
-    private Game game;
+    private final Game game;
 
     public IA(Game game) {
         this.game = game;
@@ -29,11 +29,10 @@ public class IA {
 
         int iter = 0;
         long fin;
-        int meilleurCoup;
+        int meilleurCoup = 3;
         long debut = System.currentTimeMillis();
-        //TODO : le noeud racine ne possède pas de fils, et on ne lui en donne jamais. Donc la ligne 61 nous renvoie un null
+        //TODO : L'IA réfléchit pas j'en ai marre elle est trop con aleeeeeed
         do {
-            System.out.println(courant.getNbFils());
             // algorithme MCTS
             if(courant.getNbFils() == 0) {
                 // le noeud est une feuille
@@ -44,7 +43,11 @@ public class IA {
                         courant.ajouterFils(new Noeud(courant, coups.get(k)));
                         k++;
                     }
-                    courant = courant.getFilsAt(0);
+
+                    // Si on prend le premier fils, l'algo rentreras toujours dans la même branche
+                    //courant = courant.getFilsAt(0);
+                    Random random = new Random();
+                    courant = courant.getFilsAt(random.nextInt(courant.getNbFils()));
                 }
                 int valeur = rollout();
                 while(courant.getParent() != null) {
@@ -52,18 +55,29 @@ public class IA {
                     courant.setValeurTotale((int) (courant.getValeurTotale() + valeur));
                     courant = courant.getParent();
                 }
+                courant.incrementerNbSimulations();
+                courant.setValeurTotale((int) (courant.getValeurTotale() + valeur));
             }else{
                 // le noeud n'est pas une feuille
                 // on choisit le fils qui maximise la bValeur (autrement appelée bValue)
                 courant = courant.getFilsPrefere();
             }
 
-            Noeud filsPref = courant.getFilsMaxVal();
-            meilleurCoup = coups.get(courant.getIndexFils(filsPref));
+
+            //System.out.println(courant.getNbFils());
+            if (courant.getNbFils() != 0) {
+                meilleurCoup = courant.getFilsMaxVal().getCoup();
+            }else{
+                meilleurCoup = courant.getCoup();
+            }
+
             fin = System.currentTimeMillis();
             iter++;
-            System.exit(1);
+            //System.exit(1);
         }while((fin - debut) < 3000);
+        for (int i = 0; i < courant.getNbFils(); i++){
+            System.out.println(i + " : " + courant.getFilsAt(i).getValeurTotale());
+        }
         jouerCoup(meilleurCoup, e);
     }
 
@@ -72,22 +86,16 @@ public class IA {
         List<Integer> nbPossibilites = courant.getEtat().getCoupsPossibles();
         Random rand = new Random();
         int coup = rand.nextInt(nbPossibilites.size());
-        char c = courant.getJoueur() ? 'X' : '0';
+        char c = courant.getJoueur() ? 'X' : 'O';
         p.insereJeton(c, coup);
-        //p.display();
-        Noeud tmp = new Noeud(courant, coup);
-        nbPossibilites = tmp.getEtat().getCoupsPossibles();
-        int i = 0;
+        Noeud noeudFils = new Noeud(courant, coup);
+        nbPossibilites = noeudFils.getEtat().getCoupsPossibles();
         while(nbPossibilites.size() > 0) {
-            i++;
-            courant = tmp;
-            //System.out.println(nbPossibilites);
             coup = nbPossibilites.get(rand.nextInt(nbPossibilites.size()));
-            c = courant.getJoueur() ? 'X' : '0';
+            c = noeudFils.getJoueur() ? 'X' : 'O';
             p.insereJeton(c, coup);
-            tmp = new Noeud(tmp, coup);
-            nbPossibilites = tmp.getEtat().getCoupsPossibles();
-            //p.display();
+            noeudFils = new Noeud(noeudFils, coup);
+            nbPossibilites = noeudFils.getEtat().getCoupsPossibles();
             if (game.estVictoire(p) == FinDePartie.ORDI_GAGNE){
                 return 1;
             }
@@ -101,7 +109,8 @@ public class IA {
     public boolean jouerCoup(int coup, Etat e) {
         Plateau p = e.getP();
 
-        boolean insered = p.insereJeton('O', coup);
+        char c = e.getJoueur() ? 'X' : 'O';
+        boolean insered = p.insereJeton(c, coup);
         if(!insered) {
             return false;
         }

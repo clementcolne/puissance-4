@@ -12,6 +12,9 @@ public class Game {
     private IA ia;
 
     public Game(Plateau p, InputJoueur inputJoueur, int joueur){
+
+        // humain représenté par une croix
+
         this.inputJoueur = inputJoueur;
         plateau = p;
         if (joueur == 0){

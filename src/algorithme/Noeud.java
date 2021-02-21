@@ -1,5 +1,6 @@
 package algorithme;
 
+import javax.swing.plaf.IconUIResource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,14 +26,15 @@ public class Noeud {
         if(noeudParent != null && coup != -1) {
             etat = new Etat(noeudParent.getEtat());
 
-            etat.setP(etat.jouerCoup('0', coup));
-
             this.coup = coup;
             joueur = !noeudParent.joueur;
+            char c = joueur ? 'X' : 'O';
+            etat.setP(etat.jouerCoup(c, coup));
         }else{
             this.coup = -1;
             this.etat = null;
         }
+        signe = joueur ? -1 : 1;
         this.noeudParent = noeudParent;
         lesFils = new ArrayList<>();
     }
@@ -129,15 +131,7 @@ public class Noeud {
         return noeudParent.getSigne() * (getValeurTotale()/nbSimulations) + c * Math.sqrt(Math.log(noeudParent.getNbSimulations())/nbSimulations);
     }
 
-    public double rollout() {
-        Noeud courant = this;
-        while (true){
-            if (courant.getNbFils() == 0) {
-                return nbSimulations;
-            }
-            Random random = new Random();
-            courant = getFilsAt(random.nextInt(getNbFils()));
-        }
+    public int getCoup() {
+        return coup;
     }
-
 }
