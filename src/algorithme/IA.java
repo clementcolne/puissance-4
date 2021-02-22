@@ -32,7 +32,6 @@ public class IA {
         int meilleurCoup = 3;
         long debut = System.currentTimeMillis();
         Random random = new Random();
-        //TODO : L'IA réfléchit pas j'en ai marre elle est trop con aleeeeeed
         do {
             // algorithme MCTS
             if(courant.getNbFils() == 0) {
@@ -44,8 +43,6 @@ public class IA {
                         courant.ajouterFils(new Noeud(courant, coups.get(k)));
                         k++;
                     }
-
-                    // Si on prend le premier fils, l'algo rentreras toujours dans la même branche
                     //courant = courant.getFilsAt(0);
                     courant = courant.getFilsAt(random.nextInt(courant.getNbFils()));
                 }
@@ -59,13 +56,12 @@ public class IA {
                 courant.setValeurTotale((int) (courant.getValeurTotale() + valeur));
             }else{
                 // le noeud n'est pas une feuille
-                // on choisit le fils qui maximise la bValeur (autrement aussi appelée bValue)
+                // on choisit le fils qui maximise la bValeur (autrement aussi également appelée bValue)
                 courant = courant.getFilsPrefere();
             }
 
             fin = System.currentTimeMillis();
             iter++;
-            //System.exit(1);
         }while((fin - debut) < 3000);
 
 
@@ -73,18 +69,12 @@ public class IA {
             courant = courant.getParent();
         }
 
-        for (int i = 0; i < courant.getNbFils(); i++){
-            System.out.println(courant.getFilsAt(i).getNbSimulations());
-            System.out.println(i + " : " + courant.getFilsAt(i).getValeurTotale());
-        }
-
-        //System.out.println(courant.getNbFils());
         if (courant.getNbFils() != 0) {
             meilleurCoup = courant.getFilsMaxVal().getCoup();
         }else{
             meilleurCoup = courant.getCoup();
         }
-        jouerCoup(meilleurCoup, e);
+        e.jouerCoup(meilleurCoup);
     }
 
     public int rollout() {
@@ -92,7 +82,6 @@ public class IA {
         List<Integer> nbPossibilites;
         Random rand = new Random();
         int coup;
-        char c;
         Etat e = new Etat(courant.getEtat());
 
         while(true) {
@@ -100,30 +89,13 @@ public class IA {
                 return 1;
             }
             if (game.estVictoire(p) == FinDePartie.HUMAIN_GAGNE || game.estVictoire(p) == FinDePartie.MATCHNUL){
-                p.display();
                 return 0;
             }
             nbPossibilites = e.getCoupsPossibles();
             coup = nbPossibilites.get(rand.nextInt(nbPossibilites.size()));
-            c = (e.getJoueur() ? 'X' : 'O');
-            jouerCoup(coup, e);
+            e.jouerCoup(coup);
             p = e.getP();
         }
-    }
-
-    public boolean jouerCoup(int coup, Etat e) {
-        Plateau p = e.getP();
-
-        char c = e.getJoueur() ? 'X' : 'O';
-        boolean insered = p.insereJeton(c, coup);
-        if(!insered) {
-            return false;
-        }
-
-        // à l'autre joueur de jouer
-        e.setJoueur(!e.getJoueur());
-
-        return true;
     }
 
     public void setRacine(Noeud racine) {

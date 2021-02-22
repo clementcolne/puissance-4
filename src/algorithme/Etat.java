@@ -33,8 +33,12 @@ public class Etat {
         return p;
     }
 
-    public void jouerCoup(char c, int coup) {
+    public void jouerCoup(int coup) {
+        char c = getJoueur() ? 'X' : 'O';
         p.insereJeton(c, coup);
+
+        // à l'autre joueur de jouer
+        setJoueur(!getJoueur());
     }
 
     public List<Integer> getCoupsPossibles() {

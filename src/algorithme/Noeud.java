@@ -13,7 +13,7 @@ public class Noeud {
 
     private Noeud noeudParent = null;
     private List<Noeud> lesFils;
-    private double nbSimulations = 0;
+    private double nbSimulations;
     private int valeurTotale = 0;
     private final double c = Math.sqrt(2);
     private int signe;
@@ -22,13 +22,14 @@ public class Noeud {
     private boolean joueur;
 
     public Noeud(Noeud noeudParent, int coup) {
+        nbSimulations = 0;
         if(noeudParent != null && coup != -1) {
             etat = new Etat(noeudParent.getEtat());
 
             this.coup = coup;
             joueur = !noeudParent.joueur;
             char c = joueur ? 'X' : 'O';
-            etat.jouerCoup(c, coup);
+            etat.jouerCoup(coup);
         }else{
             this.coup = -1;
             this.etat = null;
@@ -40,7 +41,7 @@ public class Noeud {
 
     public Noeud getFilsPrefere() {
         Noeud res = lesFils.get(0);
-        double highestBVal = lesFils.get(0).computeBValeur();
+        double highestBVal = Double.NEGATIVE_INFINITY;
 
         for(Noeud fils : lesFils) {
             if(fils.getNbSimulations() == 0) {
@@ -51,7 +52,6 @@ public class Noeud {
                 res = fils;
             }
         }
-
         return res;
     }
 
@@ -63,8 +63,8 @@ public class Noeud {
         return joueur;
     }
 
-    public void setEtat(Etat etat) {
-        this.etat = etat;
+    public void setEtat(Etat e) {
+        this.etat = e;
     }
 
     public Etat getEtat() {
