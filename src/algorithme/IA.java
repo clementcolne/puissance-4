@@ -31,6 +31,7 @@ public class IA {
         long fin;
         int meilleurCoup = 3;
         long debut = System.currentTimeMillis();
+        Random random = new Random();
         //TODO : L'IA réfléchit pas j'en ai marre elle est trop con aleeeeeed
         do {
             // algorithme MCTS
@@ -46,7 +47,6 @@ public class IA {
 
                     // Si on prend le premier fils, l'algo rentreras toujours dans la même branche
                     //courant = courant.getFilsAt(0);
-                    Random random = new Random();
                     courant = courant.getFilsAt(random.nextInt(courant.getNbFils()));
                 }
                 int valeur = rollout();
@@ -59,51 +59,56 @@ public class IA {
                 courant.setValeurTotale((int) (courant.getValeurTotale() + valeur));
             }else{
                 // le noeud n'est pas une feuille
-                // on choisit le fils qui maximise la bValeur (autrement appelée bValue)
+                // on choisit le fils qui maximise la bValeur (autrement aussi appelée bValue)
                 courant = courant.getFilsPrefere();
-            }
-
-
-            //System.out.println(courant.getNbFils());
-            if (courant.getNbFils() != 0) {
-                meilleurCoup = courant.getFilsMaxVal().getCoup();
-            }else{
-                meilleurCoup = courant.getCoup();
             }
 
             fin = System.currentTimeMillis();
             iter++;
             //System.exit(1);
         }while((fin - debut) < 3000);
+
+
+        while(courant.getParent() != null) {
+            courant = courant.getParent();
+        }
+
         for (int i = 0; i < courant.getNbFils(); i++){
+            System.out.println(courant.getFilsAt(i).getNbSimulations());
             System.out.println(i + " : " + courant.getFilsAt(i).getValeurTotale());
+        }
+
+        //System.out.println(courant.getNbFils());
+        if (courant.getNbFils() != 0) {
+            meilleurCoup = courant.getFilsMaxVal().getCoup();
+        }else{
+            meilleurCoup = courant.getCoup();
         }
         jouerCoup(meilleurCoup, e);
     }
 
     public int rollout() {
         Plateau p = new Plateau(courant.getEtat().getP());
-        List<Integer> nbPossibilites = courant.getEtat().getCoupsPossibles();
+        List<Integer> nbPossibilites;
         Random rand = new Random();
-        int coup = rand.nextInt(nbPossibilites.size());
-        char c = courant.getJoueur() ? 'X' : 'O';
-        p.insereJeton(c, coup);
-        Noeud noeudFils = new Noeud(courant, coup);
-        nbPossibilites = noeudFils.getEtat().getCoupsPossibles();
-        while(nbPossibilites.size() > 0) {
-            coup = nbPossibilites.get(rand.nextInt(nbPossibilites.size()));
-            c = noeudFils.getJoueur() ? 'X' : 'O';
-            p.insereJeton(c, coup);
-            noeudFils = new Noeud(noeudFils, coup);
-            nbPossibilites = noeudFils.getEtat().getCoupsPossibles();
+        int coup;
+        char c;
+        Etat e = new Etat(courant.getEtat());
+
+        while(true) {
             if (game.estVictoire(p) == FinDePartie.ORDI_GAGNE){
                 return 1;
             }
             if (game.estVictoire(p) == FinDePartie.HUMAIN_GAGNE || game.estVictoire(p) == FinDePartie.MATCHNUL){
+                p.display();
                 return 0;
             }
+            nbPossibilites = e.getCoupsPossibles();
+            coup = nbPossibilites.get(rand.nextInt(nbPossibilites.size()));
+            c = (e.getJoueur() ? 'X' : 'O');
+            jouerCoup(coup, e);
+            p = e.getP();
         }
-        return game.estVictoire(p) == FinDePartie.ORDI_GAGNE ? 1 : 0;
     }
 
     public boolean jouerCoup(int coup, Etat e) {

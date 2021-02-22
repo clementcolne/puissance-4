@@ -18,7 +18,7 @@ public class Etat {
     }
 
     public Etat(Etat e) {
-        p = e.getP();
+        p = new Plateau(e.getP());
     }
 
     public void setJoueur(boolean joueur) {
@@ -33,10 +33,8 @@ public class Etat {
         return p;
     }
 
-    public Plateau jouerCoup(char c, int coup) {
-        Plateau pCopie = new Plateau(p);
-        pCopie.insereJeton(c, coup);
-        return pCopie;
+    public void jouerCoup(char c, int coup) {
+        p.insereJeton(c, coup);
     }
 
     public List<Integer> getCoupsPossibles() {

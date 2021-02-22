@@ -13,7 +13,6 @@ public class Noeud {
 
     private Noeud noeudParent = null;
     private List<Noeud> lesFils;
-    private double mu;
     private double nbSimulations = 0;
     private int valeurTotale = 0;
     private final double c = Math.sqrt(2);
@@ -29,7 +28,7 @@ public class Noeud {
             this.coup = coup;
             joueur = !noeudParent.joueur;
             char c = joueur ? 'X' : 'O';
-            etat.setP(etat.jouerCoup(c, coup));
+            etat.jouerCoup(c, coup);
         }else{
             this.coup = -1;
             this.etat = null;
@@ -44,6 +43,9 @@ public class Noeud {
         double highestBVal = lesFils.get(0).computeBValeur();
 
         for(Noeud fils : lesFils) {
+            if(fils.getNbSimulations() == 0) {
+                return fils;
+            }
             if(fils.computeBValeur() > highestBVal) {
                 highestBVal = fils.computeBValeur();
                 res = fils;
@@ -111,7 +113,7 @@ public class Noeud {
 
     public Noeud getFilsMaxVal() {
         Noeud res = lesFils.get(0);
-        double highestVal = lesFils.get(0).getValeurTotale();
+        double highestVal = res.getValeurTotale();
 
         for(Noeud fils : lesFils) {
             if(fils.getValeurTotale() > highestVal) {
@@ -128,7 +130,8 @@ public class Noeud {
     }
 
     public double computeBValeur() {
-        return noeudParent.getSigne() * (getValeurTotale()/nbSimulations) + c * Math.sqrt(Math.log(noeudParent.getNbSimulations())/nbSimulations);
+        //return noeudParent.getSigne() * (getValeurTotale()/nbSimulations) + c * Math.sqrt(Math.log(noeudParent.getNbSimulations())/nbSimulations);
+        return (getValeurTotale()/nbSimulations) + c * Math.sqrt(Math.log(noeudParent.getNbSimulations())/nbSimulations);
     }
 
     public int getCoup() {
