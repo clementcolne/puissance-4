@@ -17,19 +17,26 @@ public class IA {
     private Noeud courant;
     private final Game game;
 
+    /**
+     * Constructeur de l'IA en fonction d'une partie
+     * @param game la partie à laquelle l'IA est liée
+     */
     public IA(Game game) {
         this.game = game;
     }
 
+    /**
+     * Algorithme de jeu de l'IA dans un état de jeu donné
+     * @param e l'état de jeu donné
+     */
     public void jouerMCTS(Etat e) {
         courant = new Noeud(null, -1);
         courant.setEtat(e);
         courant.setJoueur(e.getJoueur());
-        List<Integer> coups = new ArrayList<>();
+        List<Integer> coups;
 
-        int iter = 0;
         long fin;
-        int meilleurCoup = 3;
+        int meilleurCoup;
         long debut = System.currentTimeMillis();
         Random random = new Random();
         ProgressBarRotating progressBarRotating = new ProgressBarRotating();
@@ -63,7 +70,6 @@ public class IA {
             }
 
             fin = System.currentTimeMillis();
-            iter++;
 
         }while((fin - debut) < 3000);
         progressBarRotating.showProgress = false;
@@ -84,6 +90,10 @@ public class IA {
         e.jouerCoup(meilleurCoup);
     }
 
+    /**
+     * Fonction de simulation de jeu utilisée par l'IA
+     * @return la valeur du dernier noeud visité, en fonction de si c'est une victoire ou non
+     */
     public int rollout() {
         Plateau p = new Plateau(courant.getEtat().getP());
         List<Integer> nbPossibilites;
@@ -105,9 +115,6 @@ public class IA {
         }
     }
 
-    public void setRacine(Noeud racine) {
-        courant = racine;
-    }
 
 }
 

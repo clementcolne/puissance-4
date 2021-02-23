@@ -11,10 +11,17 @@ public class Plateau {
     // nombre de lignes dans le plateau
     private static final int lignes = 6;
 
+    /**
+     * Constructeur du plateau contenant l'initialisation de celui-ci
+     */
     public Plateau() {
         init();
     }
 
+    /**
+     * Constructeur permettant la copie du plateau
+     * @param p la plateau à copier
+     */
     public Plateau(Plateau p) {
         plateau = p.getPlateau();
     }
@@ -64,16 +71,10 @@ public class Plateau {
         if(col < 0) {
             return false;
         }
-        if(plateau[col][0] != ' ') {
+        if(isFullCol(col)) {
             // la colonne demandée est déjà pleine
-            /*System.out.println("Colonne " + col + " demandé par le jeton " + jeton + " est déjà pleine");
-            System.out.println("------------------------------");*/
             return false;
         }
-
-        /*if (col > colonnes-1){
-            return false;
-        }*/
 
         // lig = la ligne où on va insérer le jeton, au premier coup, tout en bas
         int lig = lignes - 1;
@@ -86,8 +87,6 @@ public class Plateau {
         }
         // on insère le jeton
         plateau[col][lig] = jeton;
-        /*System.out.println("Colonne " + col + " demandé par le jeton " + jeton + " est pas déjà pleine, insertion à la ligne " + lig);
-        System.out.println("------------------------------");*/
         return true;
     }
 
@@ -101,10 +100,18 @@ public class Plateau {
         return plateau[col][lig];
     }
 
+    /**
+     * Retourne le nombre de colonnes
+     * @return le nombre de colonnes
+     */
     public int getColonnes() {
         return colonnes;
     }
 
+    /**
+     * Retourne le nombre de lignes
+     * @return le nombre de lignes
+     */
     public int getLignes() {
         return lignes;
     }

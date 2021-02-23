@@ -6,11 +6,17 @@ import algorithme.Noeud;
 
 public class Game {
 
-    private Plateau plateau;
+    private final Plateau plateau;
     private final InputJoueur inputJoueur;
     private boolean tourJoueur;
-    private IA ia;
+    private final IA ia;
 
+    /**
+     * Constructeur de game
+     * @param p le plateau de jeu
+     * @param inputJoueur le coup joué par le joueur
+     * @param joueur le joueur qui joue ce tour
+     */
     public Game(Plateau p, InputJoueur inputJoueur, int joueur){
 
         // humain représenté par une croix
@@ -25,24 +31,27 @@ public class Game {
         this.ia = new IA(this);
     }
 
+    /**
+     * Permet de changer le tour des joueurs
+     */
     public void changeTourJoueur(){
         tourJoueur = !tourJoueur;
     }
 
-    public InputJoueur getInputJoueur() {
-        return inputJoueur;
-    }
-
+    /**
+     * Permet de jouer un coup dans le plateau
+     * @return la colonne donnée par le joueur
+     */
     public int jouerCoup() {
         return inputJoueur.demanderCoup();
     }
 
+    /**
+     * Permet de connaître le joueur qui joue actuellement
+     * @return le joueur actuellement en train de jouer
+     */
     public boolean isTourJoueur() {
         return tourJoueur;
-    }
-
-    public int jouerCoupIA() {
-        return inputJoueur.IA();
     }
 
     /**
@@ -99,6 +108,11 @@ public class Game {
         return FinDePartie.NON;
     }
 
+    /**
+     * Vérifie si il y a une suite de 4 jeton de même couleur dans un plateau donné
+     * @param plateau le plateau dans lequel on doit vérifier la condition de victoire
+     * @return vrai si il existe une suite de 4 jetons dans le plateau, faux sinon
+     */
     public FinDePartie estVictoire(Plateau plateau) {
         int i, j, k, l, n = 0;
         for(i = 0 ; i < plateau.getColonnes() ; i++) {
@@ -149,6 +163,9 @@ public class Game {
         return FinDePartie.NON;
     }
 
+    /**
+     * Méthode de lancement de la partie
+     */
     public void play() {
         FinDePartie finDePartie = FinDePartie.NON;
         while (finDePartie == FinDePartie.NON){

@@ -4,6 +4,9 @@ public class ProgressBarRotating extends Thread {
     boolean showProgress = true;
     final String anim = "_.·'‾'·.";
 
+    /**
+     * Méthode de lancement de l'animation de chargement
+     */
     public void run() {
         int x = 0;
         while (showProgress) {
