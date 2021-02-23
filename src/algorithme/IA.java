@@ -32,6 +32,8 @@ public class IA {
         int meilleurCoup = 3;
         long debut = System.currentTimeMillis();
         Random random = new Random();
+        ProgressBarRotating progressBarRotating = new ProgressBarRotating();
+        progressBarRotating.start();
         do {
             // algorithme MCTS
             if(courant.getNbFils() == 0) {
@@ -62,7 +64,9 @@ public class IA {
 
             fin = System.currentTimeMillis();
             iter++;
+
         }while((fin - debut) < 3000);
+        progressBarRotating.showProgress = false;
 
 
         while(courant.getParent() != null) {
@@ -74,6 +78,9 @@ public class IA {
         }else{
             meilleurCoup = courant.getCoup();
         }
+        System.out.println("Nombre de simulations totales : " + courant.getNbSimulations());
+        System.out.println("Nombre de parties gagnantes simulées : " + courant.getValeurTotale());
+        System.out.println("% de parties gagnantes simulées : " + courant.getValeurTotale()/courant.getNbSimulations() *100);
         e.jouerCoup(meilleurCoup);
     }
 
@@ -103,3 +110,5 @@ public class IA {
     }
 
 }
+
+
