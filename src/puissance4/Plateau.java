@@ -1,5 +1,7 @@
 package puissance4;
 
+import java.util.Arrays;
+
 /**
  * @author Clément Colné
  */
@@ -23,7 +25,12 @@ public class Plateau {
      * @param p la plateau à copier
      */
     public Plateau(Plateau p) {
-        plateau = p.getPlateau();
+        plateau = new char[colonnes][lignes];
+        for(int i = 0 ; i < colonnes ; i++) {
+            for(int j = 0 ; j < lignes ; j++) {
+                plateau[i][j] = p.getPlateau()[i][j];
+            }
+        }
     }
 
     /**
