@@ -102,7 +102,7 @@ public class IA {
         Plateau p = new Plateau(courant.getEtat().getP());
         List<Integer> nbPossibilites;
         Random rand = new Random();
-        int coup;
+        int coup, coupVictoire;
         Etat e = new Etat(courant.getEtat());
         FinDePartie fp;
 
@@ -115,10 +115,29 @@ public class IA {
                 return 0;
             }
             nbPossibilites = e.getCoupsPossibles();
-            coup = nbPossibilites.get(rand.nextInt(nbPossibilites.size()));
+            coupVictoire = containsVictory(e, nbPossibilites);
+            if(coupVictoire != -1) {
+                coup = coupVictoire;
+            }else {
+                coup = nbPossibilites.get(rand.nextInt(nbPossibilites.size()));
+            }
             e.jouerCoup(coup);
             p = e.getP();
         }
+    }
+
+    public int containsVictory(Etat e, List<Integer> nbPossibilites) {
+        Etat eCopie;
+        Plateau p;
+        for(int coup : nbPossibilites) {
+            eCopie = new Etat(e);
+            eCopie.jouerCoup(coup);
+            p = eCopie.getP();
+            if(game.estVictoire(p) != FinDePartie.NON && game.estVictoire(p) != FinDePartie.MATCHNUL) {
+                return coup;
+            }
+        }
+        return -1;
     }
 
 
