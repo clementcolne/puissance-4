@@ -1,7 +1,6 @@
 package algorithme;
 
 import puissance4.Plateau;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +26,7 @@ public class Etat {
      */
     public Etat(Etat e) {
         p = new Plateau(e.getP());
+        joueur = e.getJoueur();
     }
 
     /**

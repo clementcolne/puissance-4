@@ -3,8 +3,6 @@ package algorithme;
 import puissance4.FinDePartie;
 import puissance4.Game;
 import puissance4.Plateau;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -16,6 +14,7 @@ public class IA {
 
     private Noeud courant;
     private final Game game;
+    private int cpt;
 
     /**
      * Constructeur de l'IA en fonction d'une partie
@@ -30,6 +29,7 @@ public class IA {
      * @param e l'état de jeu donné
      */
     public void jouerMCTS(Etat e) {
+        cpt = 0;
         courant = new Noeud(null, -1);
         courant.setEtat(e);
         courant.setJoueur(e.getJoueur());
@@ -89,6 +89,7 @@ public class IA {
         }
         System.out.println("Nombre de simulations totales : " + courant.getNbSimulations());
         System.out.println("Nombre de parties gagnantes simulées : " + courant.getValeurTotale());
+        System.out.println("Nombre de parties gagnantes CPT : " + cpt);
         System.out.println("% de parties gagnantes simulées : " + courant.getValeurTotale()/courant.getNbSimulations() *100);
         e.jouerCoup(meilleurCoup);
     }
@@ -103,12 +104,14 @@ public class IA {
         Random rand = new Random();
         int coup;
         Etat e = new Etat(courant.getEtat());
+        FinDePartie fp;
 
         while(true) {
-            if (game.estVictoire(p) == FinDePartie.ORDI_GAGNE){
+            fp = game.estVictoire(p);
+            if (fp == FinDePartie.ORDI_GAGNE) {
                 return 1;
             }
-            if (game.estVictoire(p) == FinDePartie.HUMAIN_GAGNE || game.estVictoire(p) == FinDePartie.MATCHNUL){
+            if (fp == FinDePartie.HUMAIN_GAGNE || fp == FinDePartie.MATCHNUL) {
                 return 0;
             }
             nbPossibilites = e.getCoupsPossibles();

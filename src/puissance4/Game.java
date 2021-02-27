@@ -178,7 +178,6 @@ public class Game {
                 Etat e = new Etat(plateau);
                 e.setJoueur(tourJoueur);
                 ia.jouerMCTS(e);
-
             }
             finDePartie = estVictoire();
             plateau.display();
