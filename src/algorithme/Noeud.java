@@ -167,6 +167,24 @@ public class Noeud {
     }
 
     /**
+     * Permet de récupérer le noeud fils ayant le plus grand nombre de simulation
+     * @return le noeud fils avec le plus grand nombre de simulation
+     */
+    public Noeud getFilsRobusteVal() {
+        Noeud res = lesFils.get(0);
+        double highestVal = res.getNbSimulations();
+
+        for(Noeud fils : lesFils) {
+            if(fils.getNbSimulations() > highestVal) {
+                highestVal = fils.getNbSimulations();
+                res = fils;
+            }
+        }
+
+        return res;
+    }
+
+    /**
      * Calcul de la b-valeur du noeud
      * @return la b-valeur du noeud
      */

@@ -80,7 +80,10 @@ public class IA {
         }
 
         if (courant.getNbFils() != 0) {
+            // On a ici le critère max dans la séléction du noeud fils
             meilleurCoup = courant.getFilsMaxVal().getCoup();
+            // On a ici le critère robuste dans la séléction du noeud fils
+            //meilleurCoup = courant.getFilsRobusteVal().getCoup();
         }else{
             meilleurCoup = courant.getCoup();
         }
